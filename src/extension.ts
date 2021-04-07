@@ -64,8 +64,39 @@ export function activate(context: vscode.ExtensionContext) {
       if (endStr.indexOf('moon') !== -1) {
         tips = 'http://moon.fast-daily.tuya-inc.cn/docs/react/introduce-cn'
       } else if (endStr.indexOf('/next/') !== -1) {
-        const urlSuffix = endStr.split('/next/')[1]
-        tips = `http://nextjs.fast-daily.tuya-inc.cn/${urlSuffix}`
+        let urlSuffix = endStr.split('/next/')[1]
+        const suffixEnum = (key: string): string => {
+          let str = ''
+          switch (key) {
+            case 'head':
+              str = 'head'
+              break
+            case 'fetch':
+            case 'isServer':
+              str = 'fetch'
+              break
+            case 'dynamic':
+              str = 'dynamic'
+              break
+            case 'document':
+              str = 'extendscript'
+              break
+            case 'logger':
+              str = 'logger'
+              break
+            case 'router':
+              str = 'route'
+              break
+            case 'config':
+              str = 'config'
+              break
+
+            default:
+              break
+          }
+          return str
+        }
+        tips = `http://nextjs.fast-daily.tuya-inc.cn/${suffixEnum(urlSuffix)}`
       }
       fullPath = `@tuya-fe${endStr}`
     } else {
@@ -96,14 +127,17 @@ export function activate(context: vscode.ExtensionContext) {
     )
     // console.log(`Hello World ${fileName}, ${word}`)
     if (tips && fullPath.indexOf(hoverText) != -1)
-      return new vscode.Hover(`URL: ${tips}, ${hoverText}`)
+      return new vscode.Hover(`URL: ${tips}`)
   }
   context.subscriptions.push(disposable)
   // 注册鼠标悬停提示
   context.subscriptions.push(
     vscode.languages.registerHoverProvider(
       // 暂时只对react的typescript有效果
-      { scheme: 'file', language: 'typescriptreact' },
+      [
+        { scheme: 'file', language: 'typescriptreact' },
+        { scheme: 'file', language: 'typescript' },
+      ],
       {
         provideHover,
       }
