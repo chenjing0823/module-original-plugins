@@ -2,6 +2,7 @@
   "name": "tuya-module-original",
   "displayName": "tuya-module-original",
   "description": "涂鸦引用模块快捷打开",
+  "publisher": "chaoren-chen",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.55.0"
@@ -12,6 +13,9 @@
   "activationEvents": [
     "*"
   ],
+  "repository": {
+    "url": "https://github.com/chenjing0823/module-original-plugins"
+  },
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
